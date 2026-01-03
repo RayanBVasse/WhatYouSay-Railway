@@ -1,0 +1,10 @@
+/* Ensure radios and checkboxes are visible */
+input[type="radio"],
+input[type="checkbox"] {
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  opacity: 1;
+  position: static;
+  pointer-events: auto;
+}

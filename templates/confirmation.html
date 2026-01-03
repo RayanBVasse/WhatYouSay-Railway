@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Confirm submission – WhatYouSay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="/static/css/forms.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+<div id="page-wrapper">
+
+  <div id="main">
+    <div class="container">
+      <section>
+
+        <h2>Submission confirmed</h2>
+
+        <p>
+          The uploaded file has been processed locally.
+          Please review the summary below before proceeding.
+        </p>
+
+        <hr>
+
+        <h3>Basic information</h3>
+        <ul>
+          <li><strong>User handle:</strong> {{ user_handle }}</li>
+          <li><strong>Export source:</strong> {{ platform }}</li>
+          <li><strong>Characters:</strong> {{ char_count }}</li>
+          <li><strong>Lines:</strong> {{ line_count }}</li>
+          <li><strong>Estimated messages:</strong> {{ message_count }}</li>
+        </ul>
+
+        <hr>
+
+        <h3>Top speakers (anonymized)</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Speaker</th>
+              <th>Messages</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for speaker, count in top_speakers %}
+            <tr>
+              <td>{{ speaker }}</td>
+              <td>{{ count }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+        {% if warnings %}
+        <hr>
+        <h3>Reliability notes</h3>
+        <ul>
+            {% for warning in warnings %}
+            <li>{{ warning }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <hr>
+
+        <h3>Participation overview</h3>
+        <canvas id="speakerChart" width="400" height="200"></canvas>
+
+        <script>
+        const ctx = document.getElementById('speakerChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+            labels: {{ chart_labels | tojson }},
+            datasets: [{
+                label: 'Messages',
+                data: {{ chart_values | tojson }},
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+            },
+            options: {
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            }
+            }
+        });
+        </script>
+
+        <hr>
+        <h3>Methodological note</h3>
+        <p>
+        Individual analysis is most reliable when a user has contributed at least
+        250 messages. Group comparisons require a minimum contribution of 5% of the
+        total corpus. Below these thresholds, results may be noisy or incomplete.
+        </p>
+
+        <h3>What happens next</h3>
+        <p>
+          Level A analysis examines linguistic presence, participation balance,
+          emotional tone, and interaction structure.
+          No personal data is shared or retained beyond this session.
+        </p>
+
+        <form>
+          <button disabled class="button">
+            Proceed to Level-A analysis
+          </button>
+        </form>
+
+        <p>
+          <a href="/WhatYouSay/">Cancel and return</a>
+        </p>
+
+      </section>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

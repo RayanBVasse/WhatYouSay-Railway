@@ -1,0 +1,6 @@
+{
+  "app_name": "WhatYouSay",
+  "environment": "production",
+   "min_individual_messages": 250,
+  "min_group_share_percent": 5
+}
