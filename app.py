@@ -150,6 +150,8 @@ def upload():
     # Resolve user -> match against canonicalized speakers from parsed file
     safe_user, resolved_user_handle, messages, speaker_counts = resolve_user_handle_from_file(save_path, user_handle)
     speaker_data = anonymize_and_rank_speakers(speaker_counts, resolved_user_handle, top_n=10)
+    chart_labels = [x["name"] for x in speaker_data]
+    chart_values = [x["count"] for x in speaker_data]
 
     
     if not safe_user:
@@ -171,20 +173,18 @@ def upload():
             message=f"No match found for '{user_handle}'. "
                     f"Tip: type the name/number as it appears in WhatsApp (any casing/punctuation is fine)."
         )
-    #print ("Safe User: ", safe_user, "Resolved usr:", resolved_user_handle, "User Handl:", user_handle)
+    
+    
     # Basic stats for confirmation page
     
     #substantial = get_substantial_speakers(messages)  # uses MIN_CONTRIBUTION_PCT inside IO
     #top_speakers = sorted(speaker_counts.items(), key=lambda kv: kv[1], reverse=True)[:8]
+    
     speaker_counts = Counter(m["speaker"] for m in messages if m.get("speaker"))
     total_messages = sum(speaker_counts.values())
     user_messages = speaker_counts.get(resolved_user_handle, 0)
     char_count = sum(len((m.get("text") or "")) for m in messages)
     line_count = len(messages)  # better than splitlines for structured messages
-
-    #print("RESOLVED_USER_HANDLE:", resolved_user_handle)
-    #print("USER MSG COUNT:", speaker_counts.get(resolved_user_handle, 0))
-    #print("TOP 5:", speaker_counts.most_common(5))
 
     warnings = []
 # Individual analysis threshold
@@ -229,7 +229,8 @@ def upload():
         user_messages=user_messages,
         user_share=user_share,
         warnings=warnings,
-        speaker_data=speaker_data
+        chart_labels=chart_labels,
+        chart_values=chart_values
     )
 
 
@@ -337,4 +338,5 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
