@@ -3,3 +3,6 @@ werkzeug==2.3.7
 gunicorn==21.2.0
 python-dateutil
 emoji
+pandas
+numpy
+matplotlib
