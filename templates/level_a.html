@@ -90,8 +90,8 @@
 		<div class="col-6 col-12-medium">
 	<hr>
 <section>
-			<h2>Visual summaries</h2>
-			<p>The charts below offer a visual snapshot of how your communication unfolds over time.
+	<h2>Visual summaries</h2>
+	<p>The charts below offer a visual snapshot of how your communication unfolds over time.
 	They aren’t meant to diagnose or judge - they’re simply another way of seeing patterns that 
 	are usually invisible in day-to-day conversation. Think of this as a small observational 
 	experiment: the same words you already wrote, viewed from a different angle. You don’t need to 
@@ -105,6 +105,8 @@
 {% if metrics["plots"] is defined and metrics["plots"]["emotion"] is defined and metrics["plots"]["emotion"]["type"] == "data" and metrics["plots"]["emotion"]["data"] is defined %}
 		<div class="viz-text">
 			<h3>Emotion distribution</h3>
+		<div class="viz-row">
+		<div class="viz-image">
 			<canvas id="emotionChart"></canvas>
 			<p>
 			This chart shows how emotional signals are distributed across your messages.
@@ -112,7 +114,9 @@
 			Over time, these patterns tend to stabilise — and they often say more about communication style than about mood itself.
             </p>
 		</div>
-		</div>	
+	</div>
+	</div>
+</div>	
 			<script>
 			const emotionData = {{ metrics["plots"]["emotion"]["data"] | tojson }};
 			
@@ -134,8 +138,10 @@
 			{% endif %}
 
 {% if metrics["plots"] is defined and metrics["plots"]["moral"] is defined and metrics["plots"]["moral"]["type"] == "data" and metrics["plots"]["moral"]["data"] is defined %}
-			<div class="viz-text">
+		<div class="viz-text">
 			<h3>Moral / value framing</h3>
+		<div class="viz-row">
+		<div class="viz-image">
 			<canvas id="moralChart"></canvas>
 			<p>
 			This view captures how often your language reflects personal values, social norms, or evaluative judgments.
@@ -143,7 +149,9 @@
 			Lower levels often indicate exploratory, descriptive, or observational communication.
 			Neither pattern is better — but each shapes how others experience your voice.
 			</p>
-			</div>
+		</div>
+	</div>
+</div>
 			<script>
 			const moralData = {{ metrics["plots"]["moral"]["data"] | tojson }};
 			
@@ -165,8 +173,10 @@
 			{% endif %}
 
 {% if metrics["plots"] is defined and metrics["plots"]["emotion"] is defined and metrics["plots"]["emotion"]["type"] == "data" and metrics["plots"]["emotion"]["data"] is defined %}
-			<div class="viz-text">
+		<div class="viz-text">
 			<h3>Emoji valence timeline</h3>
+		<div class="viz-row">
+		<div class="viz-image">	
 			<canvas id="valenceChart"></canvas>
 			<p>
 			This timeline tracks emotional signalling through emojis across the conversation.
@@ -174,7 +184,8 @@
 			Many people are surprised by how stable — or patterned — their emotional signalling becomes when viewed over time
 			</p>
 			</div>	
-			
+		</div>
+	</div>
 			<script>
 			const valenceSeries = {{ metrics["plots"]["valence"]["data"]  | tojson }};
 			
@@ -323,6 +334,7 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
 
 
 
