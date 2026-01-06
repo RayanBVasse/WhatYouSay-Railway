@@ -50,11 +50,11 @@
         <hr>
         <h3>Basic information</h3>
         <ul>
-          <li><strong>User handle:<span class="user-handle">{{ user_handle }}</span></li>
-          <li><strong>Export source:</strong> {{ platform }}</li>
-          <li><strong>Characters:</strong> {{ char_count }}</li>
-          <li><strong>Lines:</strong> {{ line_count }}</li>
-          <li><strong>Estimated messages:</strong> {{ message_count }}</li>
+          <li><strong>User handle:&nbsp;&nbsp;&nbsp;<span class="user-handle">{{ user_handle }}</span></li>
+          <li><strong>Export source:&nbsp;&nbsp;&nbsp;</strong> {{ platform }}</li>
+          <li><strong>Characters:&nbsp;&nbsp;&nbsp;</strong> {{ char_count }}</li>
+          <li><strong>Lines:&nbsp;&nbsp;&nbsp;</strong> {{ line_count }}</li>
+          <li><strong>Estimated messages:&nbsp;&nbsp;&nbsp;</strong> {{ message_count }}</li>
         </ul>
         <hr>
         <h3>Top speakers (anonymized)</h3>
@@ -69,9 +69,9 @@
           <tbody>
           {% for speaker, count in top_speakers %}
             <tr class="{% if speaker == 'You' %}you-row{% endif %}">
-              <td>{{ speaker }}</td>
-              <td>{{ count }}</td>
-				
+              	<td>{{ speaker }}</td>
+              	<td>{{ count }}</td>
+				<td>{{ percent }}</td>
             </tr>
           {% endfor %}
           </tbody>
