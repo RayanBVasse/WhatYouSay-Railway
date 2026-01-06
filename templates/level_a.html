@@ -195,16 +195,42 @@
 			</script>
 			{% endif %}
 
-				
-            <a class="button" href="{{ url_for('level_b') }}">Oh, please continue to Level B....</a>
-            <p>
-              <a href="/WhatYouSay/">Cancel and return</a>
-            </p>
-            </section>
 
+	<div class="col-6 col-12-medium">
+        <article class="blog-post">
+        <h2>Level B preview</h2>
+    <a href="#"><img src="{{ url_for('static', filename='preview/LevelB_glimpse2.png') }}" alt="Level B preview" class="levelb-preview-img"></a>
+        <h3>How you come across.... is even more important!</h3>
+		
+			<p>So far in Level-A analysis 
+		<br><strong><i>Your emotional signature:&nbsp;&nbsp;</i></strong>“Across hundreds of messages, 
+			your emotional tone tends to settle into a stable range. This doesn’t describe mood — it describes style. 
+			Some people communicate with sharp peaks; others with steady presence. You’re closer to the latter.”
+		<br><strong><i>Where pressure shows up: &nbsp;&nbsp;</i></strong>	“Your language becomes more value-driven around specific 
+		topics. This is where conviction, disagreement, or leadership tends to emerge — often without conscious intent.”	
+		<br><strong><i>Your role in group dynamics: &nbsp;&nbsp;</i></strong>	“In group conversations, you tend to occupy a 
+		stabilizing role — contributing steadily rather than dominating or withdrawing.”
+		<br><br><strong> Level B places your emotional tone, pressure points, and narrative role into a broader conversational context.</strong></p>
+              
+			<footer class="controls">
+				<form action="{{ url_for('delete_and_exit') }}" method="post">
+				<button class="button" type="submit">Delete & Exit</button>
+				</form>
+				<br><h3>OR</h3>
+				{% if not paid %}
+				<a href="{{ url_for('pay') }}" class="button">Pay with PayPal</a>
+				<button disabled style="opacity:0.5;">Proceed to Level B</button>
+				{% else %}
+				<button disabled style="opacity:0.5;">Payment confirmed</button>
+				<a href="{{ url_for('level_b') }}" class="button">Proceed to Level B</a>
+				{% endif %}
+				<hr>
+			</footer>
+                        </article>
+                        </div>
+					</div>
 				</div>
-			</div>
-		</div>
+				</div>
 </div>
 
   
@@ -297,6 +323,7 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
 
 
 
