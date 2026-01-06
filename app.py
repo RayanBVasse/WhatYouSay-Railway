@@ -257,7 +257,8 @@ def level_a():
                 chat_path=chat_path,
                 user_handle=user_handle,
                 safe_user=safe_user,
-                out_dir=str(RESULTS_DIR / safe_user)  # IO ignores provided out_dir; still fine
+                out_dir=None,
+                render_mode=False
             )
         except Exception as e:
             return render_template("error.html", message=str(e))
@@ -342,6 +343,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
