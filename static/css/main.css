@@ -2017,6 +2017,10 @@ input, select, textarea {
   color: #005a9c;           /* strong blue */
 }
 
+.user-handle{
+  font-weight: 800;
+  color: #005a9c;  /* strong blue */
+}
 .confirm-grid{
   display: grid;
   grid-template-columns: 380px 1fr;
