@@ -53,7 +53,7 @@
                 <hr>
                 <h3>Basic information</h3>
                 <ul>
-                  <li><strong>User handle:</strong> {{ user_handle }}</li>
+                  <li><strong>User handle:<span class="user-handle">{{ user_handle }}</span></li>
                   <li><strong>Export source:</strong> {{ platform }}</li>
                   <li><strong>Characters:</strong> {{ char_count }}</li>
                   <li><strong>Lines:</strong> {{ line_count }}</li>
@@ -242,3 +242,4 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
