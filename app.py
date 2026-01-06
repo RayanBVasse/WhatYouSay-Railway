@@ -254,14 +254,18 @@ def level_a():
 
     # Run pipeline once per session (cache in session)
     if "metrics" not in session:
-        try:
-            metrics = run_level_a_pipeline(
-                chat_path=chat_path, user_handle=user_handle, safe_user=safe_user, out_dir=None, storage_mode="memory"  # "disk" | "memory"
-            )
-        except Exception as e:
-            return render_template("error.html", message=str(e))
-    else:
-        session["metrics"] = metrics
+    try:
+        metrics = run_level_a_pipeline(
+            chat_path=chat_path,
+            user_handle=user_handle,
+            safe_user=safe_user,
+            out_dir=None,
+            storage_mode="memory"
+        )
+        session["metrics"] = metrics   # ← THIS WAS MISSING
+    except Exception as e:
+        return render_template("error.html", message=str(e))
+
 
     print("LEVEL A METRICS:")
     pprint.pprint(session["metrics"])
@@ -344,6 +348,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
