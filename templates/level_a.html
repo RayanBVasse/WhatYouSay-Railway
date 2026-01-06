@@ -225,7 +225,7 @@
               
 			<footer class="controls">
 				<form action="{{ url_for('delete_and_exit') }}" method="post">
-				<button class="button" type="submit">Delete & Exit</button>
+				<button class="button" type="submit">Exit</button>
 				</form>
 				<br><h3>OR</h3>
 				{% if not paid %}
@@ -334,6 +334,7 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
 
 
 
