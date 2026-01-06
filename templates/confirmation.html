@@ -62,7 +62,8 @@
           <thead>
             <tr>
               <th>Speaker&nbsp;&nbsp;&nbsp;</th>
-              <th>Messages</th>
+              <th>Messages&nbsp;&nbsp;&nbsp;</th>
+				<th>Percent</th>
             </tr>
           </thead>
           <tbody>
@@ -70,6 +71,7 @@
             <tr class="{% if speaker == 'You' %}you-row{% endif %}">
               <td>{{ speaker }}</td>
               <td>{{ count }}</td>
+				<td>{{ percent }}</td>
             </tr>
           {% endfor %}
           </tbody>
