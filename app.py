@@ -268,10 +268,11 @@ def level_a():
         except Exception as e:
             return render_template("error.html", message=str(e))
 
+    print("METRICS STRUCTURE:")
+    print(json.dumps(session["metrics"], indent=2, default=str))
+    print("PLOTS TYPE:", type(session["metrics"].get("plots")))
+    print("PLOTS KEYS:", session["metrics"].get("plots", {}).keys())
 
-    print("LEVEL A METRICS:")
-    #pprint.pprint(session["metrics"])
-    
     return render_template(
         "level_a.html",
         metrics=session["metrics"],
@@ -350,6 +351,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
