@@ -150,16 +150,11 @@ def upload():
     # Resolve user -> match against canonicalized speakers from parsed file
     safe_user, resolved_user_handle, messages, speaker_counts = resolve_user_handle_from_file(save_path, user_handle)
     speaker_data = anonymize_and_rank_speakers(speaker_counts, resolved_user_handle, top_n=10)
+    ranked_speakers = speaker_data["ranked"]
+    chart_labels = speaker_data["chart_labels"]
+    chart_values = speaker_data["chart_values"]
     
-    print("SPEAKER_DATA SAMPLE:", speaker_data[:3])
-    print("TYPE:", type(speaker_data[0]))
     
-    chart_labels = [row[0] for row in speaker_data]
-    chart_values = [row[1] for row in speaker_data]
-    speaker_rows = [
-        {"speaker": row[0], "count": row[1]}
-            for row in speaker_data
-        ]
     
     if not safe_user:
         # cleanup upload
@@ -236,6 +231,7 @@ def upload():
         user_messages=user_messages,
         user_share=user_share,
         warnings=warnings,
+        top_speakers=[(r["label"], r["count"]) for r in ranked_speakers],
         chart_labels=chart_labels,
         chart_values=chart_values
     )
@@ -345,6 +341,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
