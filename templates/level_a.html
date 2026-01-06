@@ -68,7 +68,7 @@
 			  </tbody>
 			</table>
 
-			{% if metrics.plots is defined and metrics.plots.emotion is defined %}
+			{% if metrics["plots"]["emotion"] and metrics["plots"]["emotion"]["type"] == "data" %}
 			<h3>Emotion distribution</h3>
 			<canvas id="emotionChart"></canvas>
 			
@@ -92,7 +92,7 @@
 			</script>
 			{% endif %}
 
-			{% if metrics.plots is defined and metrics.plots.emotion is defined %}
+			{% if metrics["plots"]["emotion"] and metrics["plots"]["emotion"]["type"] == "data" %}
 			<h3>Moral / value framing</h3>
 			<canvas id="moralChart"></canvas>
 			
@@ -116,7 +116,7 @@
 			</script>
 			{% endif %}
 
-			{% if metrics.plots is defined and metrics.plots.emotion is defined %}
+			{% if metrics["plots"]["emotion"] and metrics["plots"]["emotion"]["type"] == "data" %}
 			<h3>Emoji valence timeline</h3>
 			<canvas id="valenceChart"></canvas>
 			
@@ -242,5 +242,6 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
 
 
