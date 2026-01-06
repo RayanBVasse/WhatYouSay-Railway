@@ -1,6 +1,7 @@
 import os
 import re
 import shutil
+import pprint
 from pathlib import Path
 from collections import Counter
 
@@ -255,13 +256,16 @@ def level_a():
     if "metrics" not in session:
         try:
             metrics = run_level_a_pipeline(
-                chat_path=chat_path, user_handle=user_handle, safe_user=safe_user, out_dir=None, storage_mode="disk"  # "disk" | "memory"
+                chat_path=chat_path, user_handle=user_handle, safe_user=safe_user, out_dir=None, storage_mode="memory"  # "disk" | "memory"
             )
         except Exception as e:
             return render_template("error.html", message=str(e))
-
+    else:
         session["metrics"] = metrics
 
+    print("LEVEL A METRICS:")
+    pprint.pprint(session["metrics"])
+    
     return render_template(
         "level_a.html",
         metrics=session["metrics"],
@@ -340,6 +344,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
