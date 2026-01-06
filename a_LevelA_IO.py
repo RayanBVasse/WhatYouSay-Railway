@@ -256,10 +256,10 @@ def run_level_a_pipeline(chat_path, user_handle, safe_user, out_dir, storage_mod
     conf = confidence_band(n_msgs)
 
    plots = {
-    "emotion": None,
-    "moral": None,
-    "valence": None,
-    }
+        "emotion": None,
+        "moral": None,
+        "valence": None,
+        }
 
     if storage_mode == "disk":
         plots["emotion"] = {"type": "file", "file": "emotion_distribution.png"}
@@ -330,6 +330,7 @@ def run_level_a_pipeline(chat_path, user_handle, safe_user, out_dir, storage_mod
         files = {}
 
     return metrics
+
 
 
 
