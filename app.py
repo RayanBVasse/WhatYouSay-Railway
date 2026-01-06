@@ -110,7 +110,7 @@ def anonymize_and_rank_speakers( speaker_counts: dict, resolved_user_handle: str
             "percent": percent,
             "is_user": is_user,
         })
-
+    
     return {
         "total_messages": total_msgs,
         "ranked": results,
@@ -150,10 +150,16 @@ def upload():
     # Resolve user -> match against canonicalized speakers from parsed file
     safe_user, resolved_user_handle, messages, speaker_counts = resolve_user_handle_from_file(save_path, user_handle)
     speaker_data = anonymize_and_rank_speakers(speaker_counts, resolved_user_handle, top_n=10)
-    chart_labels, chart_values = zip(*speaker_data)
-    chart_labels = list(chart_labels)
-    chart_values = list(chart_values)
-
+    
+    print("SPEAKER_DATA SAMPLE:", speaker_data[:3])
+    print("TYPE:", type(speaker_data[0]))
+    
+    chart_labels = [row[0] for row in speaker_data]
+    chart_values = [row[1] for row in speaker_data]
+    speaker_rows = [
+        {"speaker": row[0], "count": row[1]}
+            for row in speaker_data
+        ]
     
     if not safe_user:
         # cleanup upload
@@ -339,6 +345,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
