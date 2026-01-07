@@ -2034,8 +2034,13 @@ input, select, textarea {
   }
 }
 .chart {
-  max-width: 640px;
-  margin: 2em auto;
+  max-width: 520px;        /* controls visual size */
+  margin: 1.5em auto;     /* centers chart */
+}
+
+.chart canvas {
+  width: 100% !important; /* Chart.js needs this */
+  height: auto !important;
 }
 
 .chart-img {
