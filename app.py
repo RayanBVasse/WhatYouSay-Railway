@@ -285,6 +285,22 @@ def serve_results(safe_user, filename):
     return send_from_directory(str(directory), filename)
 
 # -----------------------------
+# LEVEL_B intro call
+# -----------------------------
+@app.route("/WhatYouSay/level-b-intro", methods=["GET"])
+def level_b_intro():
+    if not session.get("parsed_data"):
+        return redirect(url_for("index"))
+
+    if not session.get("paid", False):
+        return redirect(url_for("level_a"))
+
+    return render_template(
+        "level_b_intro.html",
+        safe_user=session.get("safe_user")
+    )
+
+# -----------------------------
 # LEVEL_B call
 # -----------------------------
 @app.route("/WhatYouSay/level-b", methods=["GET"])
@@ -374,6 +390,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
