@@ -155,25 +155,25 @@
 			</div>
 			</div>
 	</div>
-			<script>
-			const moralData = {{ metrics["plots"]["moral"]["data"] | tojson }};
-			
-			new Chart(document.getElementById("moralChart"), {
-			  type: "bar",
-			  data: {
-			    labels: Object.keys(moralData),
-			    datasets: [{
-			      label: "Moral loading",
-			      data: Object.values(moralData)
-			    }]
-			  },
-			  options: {
-			    responsive: true,
-			    plugins: { legend: { display: false } }
-			  }
-			});
-			</script>
-			{% endif %}
+																				<script>
+																				const moralData = {{ metrics["plots"]["moral"]["data"] | tojson }};
+																				
+																				new Chart(document.getElementById("moralChart"), {
+																				  type: "bar",
+																				  data: {
+																					labels: Object.keys(moralData),
+																					datasets: [{
+																					  label: "Moral loading",
+																					  data: Object.values(moralData)
+																					}]
+																				  },
+																				  options: {
+																					responsive: true,
+																					plugins: { legend: { display: false } }
+																				  }
+																				});
+																				</script>
+																				{% endif %}
 
 {% if metrics["plots"] is defined and metrics["plots"]["emotion"] is defined and metrics["plots"]["emotion"]["type"] == "data" and metrics["plots"]["emotion"]["data"] is defined %}
 		<div class="viz-text">
@@ -189,32 +189,34 @@
 			</div>	
 		</div>
 	</div>
-			<script>
-			const valenceSeries = {{ metrics["plots"]["valence"]["data"]  | tojson }};
-			
-			new Chart(document.getElementById("valenceChart"), {
-			  type: "line",
-			  data: {
-			    labels: valenceSeries.map((_, i) => i + 1),
-			    datasets: [{
-			      label: "Valence",
-			      data: valenceSeries,
-			      tension: 0.2
-			    }]
-			  },
-			  options: {
-			    responsive: true
-			  }
-			});
-			</script>
-			{% endif %}
+																			<script>
+																			const valenceSeries = {{ metrics["plots"]["valence"]["data"]  | tojson }};
+																			
+																			new Chart(document.getElementById("valenceChart"), {
+																			  type: "line",
+																			  data: {
+																			    labels: valenceSeries.map((_, i) => i + 1),
+																			    datasets: [{
+																			      label: "Valence",
+																			      data: valenceSeries,
+																			      tension: 0.2
+																			    }]
+																			  },
+																			  options: {
+																			    responsive: true
+																			  }
+																			});
+																			</script>
+																			{% endif %}
 
 
 	<div class="col-6 col-12-medium">
         <article class="blog-post">
         <h2>Level B preview</h2>
+			
     <a href="#"><img src="{{ url_for('static', filename='preview/LevelB_glimpse2.png') }}" alt="Level B preview" class="levelb-preview-img"></a>
-        <h3>How you come across.... is even more important!</h3>
+        
+			<h3>How you come across.... is even more important!</h3>
 		
 			<p>So far in Level-A analysis 
 		<br><strong><i>Your emotional signature:&nbsp;&nbsp;</i></strong>“Across hundreds of messages, 
@@ -337,6 +339,7 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
 
 
 
