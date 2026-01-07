@@ -223,7 +223,8 @@ def upload():
     session["platform"] = platform
     session["paid"] = False
 
-    #print("TOP_SPEAKERS:", speaker_counts.most_common(15))
+    print("TOP_SPEAKERS:", speaker_counts.most_common(15))
+    print("LEVEL A parsed_data:", session.get("parsed_data"))
 
     # Confirmation page
     return render_template(
@@ -371,6 +372,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
