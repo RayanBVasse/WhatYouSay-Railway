@@ -149,9 +149,7 @@ def upload():
     
     # Resolve user -> match against canonicalized speakers from parsed file
     safe_user, resolved_user_handle, messages, speaker_counts = resolve_user_handle_from_file(save_path, user_handle)
-    anon_msgs, self_msgs = anonymize_and_split(messages, resolved_user_handle)
-    anon_text = "\n".join(m.get("text", "") for m in anon_msgs)
-    self_text = "\n".join(m.get("text", "") for m in self_msgs)
+    
     
     speaker_data = anonymize_and_rank_speakers(speaker_counts, resolved_user_handle, top_n=10)
     ranked_speakers = speaker_data["ranked"]
@@ -214,7 +212,7 @@ def upload():
 
     # Persist for next steps
     
-    session["parsed_data"] = {"chat_path": save_path, "user_handle": resolved_user_handle}
+    session["parsed_data"] = True
     session["chat_path"] = save_path
     session["user_handle"] = resolved_user_handle      # EXACT speaker label (IO needs this)
     session["safe_user"] = safe_user                   # canonical safe id (folders/urls)
@@ -248,16 +246,15 @@ def upload():
 @app.route("/WhatYouSay/level-a", methods=["GET"])
 def level_a():
    if "parsed_data" not in session:
-    return redirect(url_for("index"))
+       return redirect(url_for("index"))
 
-    chat_path = session.get("chat_path")
-    user_handle = session.get("user_handle")  # exact speaker label
-    safe_user = session.get("safe_user")
+   chat_path = session.get("chat_path")
+   user_handle = session.get("user_handle")  # exact speaker label
+   safe_user = session.get("safe_user")
 
    if not chat_path or not user_handle or not safe_user:
         return redirect(url_for("index"))
-
-    # Run pipeline once per session (cache in session)
+   # Run pipeline once per session (cache in session)
    if "metrics" not in session:
         try:
             metrics = run_level_a_pipeline(
@@ -271,11 +268,6 @@ def level_a():
             session["metrics"] = metrics   # ← THIS WAS MISSING
         except Exception as e:
             return render_template("error.html", message=str(e))
-
-    #print("METRICS STRUCTURE:")
-    #print(json.dumps(session["metrics"], indent=2, default=str))
-    #print("PLOTS TYPE:", type(session["metrics"].get("plots")))
-    #print("PLOTS KEYS:", session["metrics"].get("plots", {}).keys())
 
    return render_template(
         "level_a.html",
@@ -297,25 +289,37 @@ def serve_results(safe_user, filename):
 # -----------------------------
 @app.route("/WhatYouSay/level-b", methods=["GET"])
 def level_b():
-    if not session.get("parsed_data"):
-        return redirect(url_for("index"))
-    if not session.get("paid", False):
-        return redirect(url_for("level_a"))
+      if not session.get("parsed_data"):
+           return redirect(url_for("index"))
+      if not session.get("paid", False):
+           return redirect(url_for("level_a"))
+
+      chat_path = session.get("chat_path")
+      user_handle = session.get("user_handle")
+      safe_user = session.get("safe_user")
+
+      if not chat_path or not user_handle or not safe_user:
+           return redirect(url_for("index"))
+   
+   # Load messages fresh from disk
+       messages = load_chat_from_file(chat_path)
+
+    # Split anon vs self (NO re-resolve here)
+       anon_msgs, self_msgs = anonymize_and_split(messages, user_handle)
+       anon_text = "\n".join(m.get("text", "") for m in anon_msgs)
+       self_text = "\n".join(m.get("text", "") for m in self_msgs)
 
     # Generate Level-B narrative once per session
     if "levelB_narrative" not in session:
         report = generate_levelB_narrative(
-            anon_text=session["parsed_data"]["anon_text"],
-            self_text=session["parsed_data"]["self_text"],
+            anon_text= anon_text,
+            self_text= self_text,
             metrics=session["metrics"],
-            evidence=session.get("evidence", {}),  # optional, empty for now
+            evidence= {},  # optional, empty for now
             speaker_alias=session.get("safe_user"),
         )
 
         session["levelB_narrative"] = report
-
-    print("parsed_data:", session.get("parsed_data"), type(session.get("parsed_data")))
-    print("session keys:", session.keys())
     
     return render_template(
         "level_b.html",
@@ -370,6 +374,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
