@@ -53,8 +53,20 @@ Button disabled until checked.</pre>
 <br>
 <hr>
 
+<form action="{{ url_for('level_b') }}" method="get">
+  <label>
+    <input type="checkbox" required>
+    I understand this analysis may take a few minutes, and should not be refreshed. 
+    <br>(no rsults are save, and hence, your results will be lost upon refershing)
+  </label>
+  <button type="submit">Proceed to Level B analysis</button>
+</form>
+
+<hr>
+
 <form action="{{ url_for('delete_and_exit') }}" method="post">
   <button type="submit">Delete & Exit</button>
 </form>
 
 <button disabled>Download ZIP (coming next)</button>
+
