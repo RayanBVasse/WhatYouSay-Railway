@@ -127,7 +127,7 @@
 																				labels: Object.keys(emotionData),
 																				datasets: [{
 																				  label: "Emotion count",
-																				  data: Object.values(emotionData)
+																				  data: Object.values(emotionData),
 																				  backgroundColor: "#8ecae6"
 																				}]
 																			  },
@@ -136,13 +136,13 @@
 																				maintainAspectRatio: false,
 																				plugins: { legend: { display: false } }
 																			  },
-																			  scales: {
+																				scales: {
 																				  y: {
 																					beginAtZero: true,
 																					max: 0.3,
 																					ticks: { stepSize: 0.05 }
 																				  }
-																				}
+																				}															
 																			});
 																			</script>
 																			{% endif %}
@@ -168,17 +168,19 @@
 																				const moralData = {{ metrics["plots"]["moral"]["data"] | tojson }};
 																				
 																				new Chart(document.getElementById("moralChart"), {
-																				  type: "bar",
+																				  type: "pie",
 																				  data: {
 																					labels: Object.keys(moralData),
 																					datasets: [{
 																					  label: "Moral loading",
-																					  data: Object.values(moralData)
+																					  data: Object.values(moralData),
+																					backgroundColor: ["#adb5bd", "#74c0fc"]
 																					}]
 																				  },
 																				  options: {
 																					responsive: true,
-																					plugins: { legend: { display: false } }
+																					plugins: { legend: { position: "bottom" } 
+																								}
 																				  }
 																				});
 																				</script>
@@ -348,6 +350,7 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
 
 
 
