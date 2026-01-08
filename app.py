@@ -309,7 +309,13 @@ def level_b():
            return redirect(url_for("index"))
    if not session.get("paid", False):
            return redirect(url_for("level_a"))
-
+   if "levelB_narrative" in session:
+        return render_template(
+            "level_b.html",
+            levelB_report=session["levelB_narrative"],
+            safe_user=session.get("safe_user")
+        )
+      
    chat_path = session.get("chat_path")
    user_handle = session.get("user_handle")
    safe_user = session.get("safe_user")
@@ -390,6 +396,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
