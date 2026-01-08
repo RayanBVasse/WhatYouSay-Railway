@@ -342,13 +342,9 @@ def level_b():
             speaker_alias=session.get("safe_user"),
         )
 
-   session["levelB_narrative"] = report
-   key = session["safe_user"]
-
-   if key not in LEVELB_CACHE:
-    LEVELB_CACHE[key] = generate_levelB_narrative(...)
-
-   report = LEVELB_CACHE[key] 
+   #session["levelB_narrative"] = report
+   #key = session["safe_user"]
+ 
    
    return render_template(
         "level_b.html",
@@ -403,6 +399,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
