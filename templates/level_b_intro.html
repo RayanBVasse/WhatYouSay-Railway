@@ -95,14 +95,20 @@
                 Button disabled until checked.</pre>
                 <br>
                 <hr>
-                <form action="{{ url_for('level_b') }}" method="get">
-					<label>
-						<input type="checkbox" required>
-						I understand this analysis may take time and should not be refreshed.
-					</label>
-					<button type="submit" class="button">Proceed to Level B analysis</button>
-					</form>
-                <hr><br>
+	             <form action="{{ url_for('level_b') }}" method="get">
+				  <label>
+				    <input type="checkbox" required>
+				    I understand this analysis may take time and should not be refreshed.
+				  </label>
+				
+				  <br><br>
+				
+				  <button type="submit" class="button">
+				    Proceed to Level B analysis
+				  </button>
+				</form>
+
+				  <hr><br>
                 <form action="{{ url_for('delete_and_exit') }}" method="post">
                   <button type="submit" class="button" >Delete & Exit</button>
                 </form>
@@ -199,3 +205,4 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
