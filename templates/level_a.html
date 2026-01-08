@@ -119,6 +119,10 @@
 			</div>
 		</div>	
 																			<script>
+																			  console.log("emotionData =", emotionData);
+																			</script>
+			
+																			<script>
 																			const emotionData = {{ metrics["plots"]["emotion"]["data"] | tojson }};
 																			
 																			new Chart(document.getElementById("emotionChart"), {
@@ -350,6 +354,7 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
 
 
 
