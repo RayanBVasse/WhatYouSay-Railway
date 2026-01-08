@@ -39,14 +39,30 @@
        <!-- Main -->
 
 <div id="main">
- <section> 
-    <h2>Level B Results</h2>
-
-    <pre>{render your results here</pre>
-    <pre>
-    {{ levelB_report | tojson(indent=2) }}
-    </pre>
-</section> 
+<section>
+			  <h2>Level B Results</h2>
+			
+			  {% for section in levelB_report.sections %}
+			    <article style="margin-bottom: 2em;">
+			      <h3>{{ section.title }}</h3>
+			
+			      <p>{{ section.body }}</p>
+			
+			      {% if section.highlights %}
+			        <ul>
+			          {% for h in section.highlights %}
+			            <li>{{ h }}</li>
+			          {% endfor %}
+			        </ul>
+			      {% endif %}
+			    </article>
+			  {% endfor %}
+			
+			  {% if levelB_report.closing_note %}
+			    <hr>
+			    <p><strong>Closing note:</strong> {{ levelB_report.closing_note }}</p>
+			  {% endif %}
+</section>
 <hr>
 
 <form action="{{ url_for('delete_and_exit') }}" method="post">
@@ -145,6 +161,7 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
 
 
 
