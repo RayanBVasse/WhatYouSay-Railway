@@ -137,7 +137,7 @@ Beta testers are encouraged to provide feedback on:
 -error messaging and usability
 
 Feedback on output quality is more valuable than feedback on internal implementation details.
-raya@living-literature.org
+rayan@living-literature.org
 
 License / Ethics
 
