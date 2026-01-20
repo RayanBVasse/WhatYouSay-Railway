@@ -2073,6 +2073,11 @@ input, select, textarea {
   margin: 0.5em auto 0;
 }
 
+.compact-text p {
+		line-height: 1.5em;
+		margin-bottom: 0.75em;
+	}
+
 
 
 
