@@ -89,9 +89,20 @@
 								<br>
 								<div>
 									<label><strong>Text file (.txt)</strong></label><br>
-									<input type="file" name="text" accept=".txt" required>
+										<div class="file-dropzone">
+										<input type="file" id="text-file" name="text" accept=".txt" required>
+										<label for="text-file">
+										<span class="file-dropzone-title">Drag &amp; drop file here</span>
+										<span class="file-dropzone-subtitle">or click to browse</span>
+									</label>
 								</div>
 								<br>
+								<div class="consent-checkbox">
+									<label>
+										<input type="checkbox" name="consent" required>
+										I confirm the following
+									</label>
+								</div>
 								<div class="compact-text">	
 						By uploading a file, you confirm that you are the legal owner or have explicit permission from the conversation participant(s) 
 						to analyze this data. The platform does not retain any text data or metadata beyond your current session. 
