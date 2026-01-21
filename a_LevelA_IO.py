@@ -245,6 +245,19 @@ def run_level_a_pipeline(chat_path, user_handle, safe_user, out_dir, storage_mod
         prev_idx = idx
 
     emotion_norm = normalize_counter(emotion_counts)
+    emotion_order = [
+        "anger",
+        "anticipation",
+        "disgust",
+        "fear",
+        "joy",
+        "sadness",
+        "surprise",
+        "trust",
+        "positive",
+        "negative",
+    ] ordered_emotion_norm = {label: emotion_norm.get(label, 0) for label in emotion_order}
+    
     moral_norm = normalize_counter(moral_counts) if moral_counts else {}
     tone_valence = tone_from_nrc(emotion_norm)
 
@@ -269,9 +282,10 @@ def run_level_a_pipeline(chat_path, user_handle, safe_user, out_dir, storage_mod
 
         plots["valence"] = {"type": "file", "file": "valence_timeline.png"}
 
-    else:  # memory mode
-        plots["emotion"] = {"type": "data", "data": list(emotion_norm.values())}
-        plots["moral"] = {"type": "data", "data": list(moral_norm.values()) if moral_norm else None}
+    else:  # memory mode␊
+        plots["emotion"] = {"type": "data", "data": ordered_emotion_norm}
+        plots["moral"] = {"type": "data", "data": moral_norm if moral_norm else None}
+        
         plots["valence"] = {"type": "data", "data": list(valence_timeline)}
 
 
@@ -330,6 +344,7 @@ def run_level_a_pipeline(chat_path, user_handle, safe_user, out_dir, storage_mod
         files = {}
 
     return metrics
+
 
 
 
