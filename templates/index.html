@@ -164,6 +164,25 @@
 		</div>
 
 		<!-- Scripts -->
+<script>
+	const fileInput = document.getElementById("text-file");
+	const fileMessage = document.getElementById("file-dropzone-message");
+
+	if (fileInput && fileMessage) {
+		fileInput.addEventListener("change", () => {
+			if (fileInput.files && fileInput.files.length > 0) {
+				fileMessage.textContent = "The file has been successfully received.";
+				fileMessage.classList.add("is-visible");
+			} else {
+				fileMessage.textContent = "";
+				fileMessage.classList.remove("is-visible");
+			}
+		});
+	}
+</script>
+
+
+		
 				<script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/browser.min.js"></script>
 <script src="/static/js/breakpoints.min.js"></script>
