@@ -104,6 +104,26 @@ def canonicalize(s: str) -> str:
     s = s.lower()
     return "".join(ch for ch in s if ch.isalnum())
 
+
+def level_a_stats(self_msgs):
+    total = len(self_msgs)
+    avg_len = sum(m["word_count"] for m in self_msgs) / total
+    q_ratio = sum(m["is_question"] for m in self_msgs) / total
+    emoji_ratio = sum(bool(m["emojis"]) for m in self_msgs) / total
+    return avg_len, q_ratio, emoji_ratio
+
+def get_top_other_speakers(messages, primary_speaker, limit=4):
+    counts = Counter(m["speaker"] for m in messages if m["speaker"] != primary_speaker)
+    ranked = sorted(counts.items(), key=lambda x: (-x[1], x[0]))
+    return [speaker for speaker, _ in ranked[:limit]]
+
+def build_user_label_map(primary_speaker, other_speakers):
+    label_map = {primary_speaker: "primary_speaker"}
+    for idx, speaker in enumerate(other_speakers, start=1):
+        label_map[speaker] = f"user_{idx}"
+    return label_map
+
+
 def bucket_time_of_day(messages, label_map):
     results = {}
     for speaker, label in label_map.items():
@@ -621,6 +641,7 @@ def run_level_a_pipeline(chat_path, user_handle, safe_user, out_dir, storage_mod
         files = {}
 
     return metrics
+
 
 
 
