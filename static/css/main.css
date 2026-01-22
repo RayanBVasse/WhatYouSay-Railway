@@ -2162,6 +2162,34 @@ input, select, textarea {
     max-width: 100%;
   }
 }
+.visuals {
+  margin-top: 2em;
+}
+
+.visual-row {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.visual-row.two-col {
+  grid-template-columns: 2fr 1fr;
+  align-items: start;
+}
+
+.visual-row.full-width {
+  grid-template-columns: 1fr;
+}
+
+.visual-block img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.75rem;
+}
+
+.visual-block h3 {
+  margin-bottom: 0.5rem;
+}
 
 
 
