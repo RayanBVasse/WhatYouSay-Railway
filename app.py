@@ -1,10 +1,13 @@
 import os
-import re
-import shutil
-import pprint
+import uuid
 import json
+import zipfile
+import subprocess
+import sys
+import shutil
+import markdown
 from pathlib import Path
-from collections import Counter
+from markupsafe import Markup
 
 from flask import ( Flask, render_template, request, redirect, url_for, session, send_from_directory)
 from werkzeug.utils import secure_filename
@@ -33,8 +36,25 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-me")
 app.config["UPLOAD_FOLDER"] = str(UPLOAD_DIR)
 app.config["MAX_CONTENT_LENGTH"] = MAX_FILE_MB * 1024 * 1024
-   
-    
+
+# optional: short descriptions for UI cards
+EMO_DESC = {
+    "surprise": "Moments where expectations were disrupted or outcomes diverged from the norm.",
+    "anticipation": "Forward-looking emotional signals linked to expectation, planning, or uncertainty.",
+    "trust": "Language indicating confidence in others’ intentions or shared understanding.",
+    "joy": "Positive affect, enthusiasm, humour, or shared enjoyment.",
+    "fear": "Threat sensitivity, caution, anxiety, or worry signals.",
+    "sadness": "Loss, disappointment, low mood, or resignation signals.",
+    "anger": "Irritation, blame, frustration, or hostility signals.",
+    "disgust": "Rejection, contempt, or moral revulsion signals.",
+}
+
+def md_html(text: str) -> str:
+    if not text:
+        return ""
+    return markdown.markdown(text, extensions=["extra", "nl2br"])
+
+
 # -----------------------------
 # Canonicalization (ONE function)
 # -----------------------------
@@ -308,6 +328,55 @@ def level_b_intro():
         safe_user=session.get("safe_user")
     )
 
+
+@app.route("/ReflectIQ/start_levelB/<user_handle>", methods=["POST"])
+def start_levelB(user_handle):
+    print("FLASK: start_levelB ENTERED", flush=True)
+    print(f"FLASK: user_handle = {user_handle}", flush=True)
+
+    cmd = [
+        sys.executable,
+        "-u",  # UNBUFFERED MODE
+        str(BASE_DIR / "level_B" / "levelB_runner.py"),
+        user_handle
+    ]
+    print("FLASK: spawning levelB_runner.py....by passing f_run_levelB.py..", flush=True)
+    proc = subprocess.Popen(
+        cmd,
+        cwd=str(BASE_DIR),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        encoding="utf-8",   # 👈 REQUIRED
+        errors="replace", 
+        bufsize=1
+    )
+
+    print("FLASK: subprocess started", flush=True)
+    
+    processes[user_handle] = proc
+    return jsonify({"status": "started"})
+
+@app.route("/ReflectIQ/stream_levelB/<user_handle>")
+def stream_levelB(user_handle):
+    def generate():
+        proc = processes.get(user_handle)
+        if not proc:
+            yield "data: ERROR: process not found\n\n"
+            return
+
+        for line in proc.stdout:
+            yield f"data: {line.rstrip()}\n\n"
+
+        proc.wait()
+        yield "data: __DONE__\n\n"
+
+    return Response(generate(), mimetype="text/event-stream")
+
+
+
+
+
 # -----------------------------
 # LEVEL_B call
 # -----------------------------
@@ -406,6 +475,7 @@ def delete_and_exit():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
 
