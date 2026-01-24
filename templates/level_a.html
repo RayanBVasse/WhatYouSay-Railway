@@ -103,94 +103,91 @@
 </section>
 		<ul class="big-image-list">	
 {% if metrics["plots"] is defined and metrics["plots"]["emotion"] is defined and metrics["plots"]["emotion"]["type"] == "data" and metrics["plots"]["emotion"]["data"] is defined %}
-		<div class="chart-block">
-			<div class="viz-text">
-				<div class="chart-pair">
-					<div class="chart-panel chart-panel-wide">
-					<h3>Emotion distribution</h3>
-					<div class="chart">
-						<canvas id="emotionChart"></canvas>
-					</div>
-					<p class="caption">
-					This chart shows how emotional signals are distributed across your messages.
-					Some people express a narrow emotional range very consistently, while others shift tone depending on context or conversation partner.
-					Over time, these patterns tend to stabilise — and they often say more about communication style than about mood itself.
-		            </p>
-				</div>
-				</div>	
-			</div>
-		</div>	
-							<script>
-							  console.log("emotionData =", emotionData);
-							</script>
+		<section class="visual-section">
+		  <div class="visual-row two-col">
+		    <!-- Emotion bar chart -->
+		    <div class="visual-block">
+		      <h3>Emotion distribution</h3>
+		      <div class="chart-container">
+		        <canvas id="emotionChart"></canvas>
+		      </div>
+		      <p class="caption">
+		        This chart shows how emotional signals are distributed across your messages.
+		        Some people express a narrow emotional range very consistently, while others shift tone depending on context or conversation partner.
+		        Over time, these patterns tend to stabilise — and they often say more about communication style than about mood itself.
+		      </p>
+		    </div>	
+					<script>
+					  console.log("emotionData =", emotionData);
+					</script>
 
-							<script>
-							const emotionData = {{ metrics["plots"]["emotion"]["data"] | tojson }};
-							
-							new Chart(document.getElementById("emotionChart"), {
-							  type: "bar",
-							  data: {
-								labels: Object.keys(emotionData),
-								datasets: [{
-								  label: "Emotion count",
-								  data: Object.values(emotionData),
-								  backgroundColor: "#8ecae6"
-								}]
-							  },
-							  options: {
-								responsive: true,
-								maintainAspectRatio: false,
-								plugins: { legend: { display: false } }
-							  },
-								scales: {
-								  y: {
-									beginAtZero: true,
-									max: 0.3,
-									ticks: { stepSize: 0.05 }
-								  }
-								}															
-							});
-							</script>
-							{% endif %}
+					<script>
+					const emotionData = {{ metrics["plots"]["emotion"]["data"] | tojson }};
+					
+					new Chart(document.getElementById("emotionChart"), {
+					  type: "bar",
+					  data: {
+						labels: Object.keys(emotionData),
+						datasets: [{
+						  label: "Emotion count",
+						  data: Object.values(emotionData),
+						  backgroundColor: "#8ecae6"
+						}]
+					  },
+					  options: {
+						responsive: true,
+						maintainAspectRatio: false,
+						plugins: { legend: { display: false } }
+					  },
+						scales: {
+						  y: {
+							beginAtZero: true,
+							max: 0.3,
+							ticks: { stepSize: 0.05 }
+						  }
+						}															
+					});
+					</script>
+					{% endif %}
 
+<!-- Moral pie chart -->			  
 {% if metrics["plots"] is defined and metrics["plots"]["moral"] is defined and metrics["plots"]["moral"]["type"] == "data" and metrics["plots"]["moral"]["data"] is defined %}
-		<div class="chart-block">
-			<div class="chart-panel chart-panel-narrow">
-				<h3>Moral / value framing</h3>
-			<div class="chart chart--small">
-				<div class="chart">
-				<canvas id="moralChart"></canvas>
-				</div>
-				<p class="caption">
-				This view captures how often your language reflects personal values, social norms, or evaluative judgments.
-				A stronger value signal usually appears in moments of conviction, disagreement, or leadership. 
-				Lower levels often indicate exploratory, descriptive, or observational communication.
-				Neither pattern is better — but each shapes how others experience your voice.
-				</p>
-			</div>
-			</div>
-	</div>
-							<script>
-							const moralData = {{ metrics["plots"]["moral"]["data"] | tojson }};
-							
-							new Chart(document.getElementById("moralChart"), {
-							  type: "pie",
-							  data: {
-								labels: Object.keys(moralData),
-								datasets: [{
-								  label: "Moral loading",
-								  data: Object.values(moralData),
-								backgroundColor: ["#adb5bd", "#74c0fc"]
-								}]
-							  },
-							  options: {
-								responsive: true,
-								plugins: { legend: { position: "bottom" } 
-											}
-							  }
-							});
-							</script>
-							{% endif %}
+		<div class="visual-block">
+		      <h3>Moral / value framing</h3>
+		      <div class="chart-container">
+		        <canvas id="moralChart"></canvas>
+		      </div>
+		      <p class="caption">
+		        This view captures how often your language reflects personal values,
+		        social norms, or evaluative judgments.
+		        Neither pattern is better — but each shapes how others experience your voice.
+		      </p>
+		    </div>
+		    {% endif %}
+		</div>
+
+</section>
+				<script>
+				const moralData = {{ metrics["plots"]["moral"]["data"] | tojson }};
+				
+				new Chart(document.getElementById("moralChart"), {
+				  type: "pie",
+				  data: {
+					labels: Object.keys(moralData),
+					datasets: [{
+					  label: "Moral loading",
+					  data: Object.values(moralData),
+					backgroundColor: ["#adb5bd", "#74c0fc"]
+					}]
+				  },
+				  options: {
+					responsive: true,
+					plugins: { legend: { position: "bottom" } 
+								}
+				  }
+				});
+				</script>
+				{% endif %}
 
 {% if metrics["plots"] is defined and metrics["plots"]["emotion"] is defined and metrics["plots"]["emotion"]["type"] == "data" and metrics["plots"]["emotion"]["data"] is defined %}
 		<div class="viz-text">
@@ -356,6 +353,7 @@
             <script src="{{ url_for('static', filename='js//main.js') }}"></script>
 </body>
 </html>
+
 
 
 
